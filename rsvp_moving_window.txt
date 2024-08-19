@@ -1,0 +1,175 @@
+   // Right-to-Left Moving Window presentation for the sentence
+        (function(){
+            const words = row.sentence.split(" ");
+            const maskedSentence = words.map(() => "___").join(" ");
+            return [
+                newText("sentence", maskedSentence)
+                    .center()
+                    .print(),
+                ...words.map((word, i) => [
+                    getText("sentence").text(
+                        words.map((w, j) => (i === (words.length - 1 - j) ? word : "___")).join(" ")
+                    ),
+                    newTimer(300).start().wait(),
+                    newTimer(100).start().wait()
+                ]).flat(),
+                getText("sentence").remove() // Remove the sentence before the question appears
+            ];
+        })()
+
+        ,
+       
+        // Question with two possible answers
+        newText(  "question" , row.question )
+            .center() // Center the context text
+            .print()
+        ,
+        newCanvas("answers", 500, 100)
+            .add(100, 0, newText("F", "F: " + row.SECOND))
+            .add(300, 0, newText("J", "J: " + row.FIRST))
+            .center()
+            .print()
+        ,
+        newKey("answer", "FJ")
+            .wait()
+            .log()
+        ,
+        getText("question")
+            .remove()
+        ,
+        getCanvas("answers")
+            .remove()
+    )
+    .log("group", row.group)
+    .log("context", row.context)
+    .log("sentence", row.sentence)
+    .log("question", row.question)
+);
+
+// Practice-end
+newTrial("practice-end",
+    newText("practice-end", ".????? ???? ??????. ?????? ????? ?????. ??? ???? ??????? ?????? ???????")    
+        .cssContainer({"font-size": "15px", "margin-top":"2em"})
+        .center()
+        .print()
+   
+    ,
+    newButton("continue", "Continue")
+        .center()
+        .print()
+        .cssContainer({"margin-top":"2em"})
+        .wait()
+);
+
+// Experimental trial
+Template("demo_items.csv", row =>
+    newTrial("experimental-trial",
+        // Show context
+        newText("context", row.context)
+            .center() // Center the context text
+            .print()
+        ,
+        newKey(" ")
+            .wait()
+        ,
+        getText("context")
+            .remove()
+        ,
+        newTimer(400).start().wait()  // 400ms break after context
+        ,
+        // Right-to-Left Moving Window presentation for the sentence
+        (function(){
+            const words = row.sentence.split(" ");
+            const maskedSentence = words.map(() => "___").join(" ");
+            return [
+                newText("sentence", maskedSentence)
+                    .center()
+                    .print(),
+                ...words.map((word, i) => [
+                    getText("sentence").text(
+                        words.map((w, j) => (i === (words.length - 1 - j) ? word : "___")).join(" ")
+                    ),
+                    newTimer(300).start().wait(),
+                    newTimer(100).start().wait()
+                ]).flat(),
+                getText("sentence").remove() // Remove the sentence before the question appears
+            ];
+        })()
+
+        ,
+        // Question with two possible answers
+        newText("question", row.question)
+            .center() // Center the context text
+            .print()
+        ,
+        newCanvas("answers", 500, 100)
+            .add(100, 0, newText("F", "F: " + row.SECOND))
+            .add(300, 0, newText("J", "J: " + row.FIRST))
+            .center()
+            .print()
+        ,
+        newKey("answer", "FJ")
+            .wait()
+            .log()
+        ,
+        getText("question")
+            .remove()
+        ,
+        getCanvas("answers")
+            .remove()
+    )
+    .log("group", row.group)
+    .log("set", row.set)
+    .log("condition", row.condition)
+    .log("context-type", row["context-type"])
+    .log("context", row.context)
+    .log("sentence", row.sentence)
+    .log("question", row.question)
+);
+
+// Send results manually
+SendResults("send");
+
+// Done
+newTrial("done",
+    newHtml("done", "done.html")
+        .cssContainer({"width":"720px"})
+        .center()
+        .log()
+        .print()
+    ,
+    newButton("continue", "????")
+        .center()
+        .print()
+        .wait()
+);
+
+// Debriefing
+newTrial("debriefing",
+    newHtml("debriefing_form", "debriefing.html")
+        .cssContainer({"width":"720px"})
+        .checkboxWarning("?? ???? ?? ?????? ?? ??? ????? ?????? ?? ??????")
+        .center()
+        .log()
+        .print()
+    ,
+    newButton("continue", "???? ?????")
+        .center()
+        .print()
+        .wait(getHtml("debriefing_form").test.complete()
+                  .failure(getHtml("debriefing_form").warn()))
+);
+
+// Completion screen
+newTrial("completion_screen",
+    newText("thanks", "???? ?? ????????")
+        .center()
+        .print()
+    ,
+    newButton("end experiment", "????")
+        .center()
+        .print()
+        .wait()
+);
+
+

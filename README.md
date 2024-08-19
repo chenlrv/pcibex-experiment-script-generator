@@ -47,7 +47,7 @@ In the case of RSVP:
 2) Change the template script to have the Presentation duration of each word in msec (int./float). 
 3) Change the template script to have the InterWord break duration in msec (int./float).
 
-<u Section #3: Validating the compatibility of the Stimuli experimental materials. u>
+<u> Section #3: Validating the compatibility of the Stimuli experimental materials. <u>
 
 1) Extract the names of the columns in the Excel file of the stimuli. 
 2) Specify which column names are essential and which are optional. Provide 2 files, one with a list of essential names found in the template script and the other with the optional ones. 

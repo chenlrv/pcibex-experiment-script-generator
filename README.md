@@ -1,31 +1,31 @@
 **Python Hackathon - Package for behavioral expreiments in sentences parsing: Prof. Aya Meltzer**
 
-**<u>Project Description:</u>**
+**Project Description:**
 In the lab, behavioral experiments are run using PCIbex, an online java script based
 experiment builder. The experiments are different in what they are measuring and how
 (reading times, accuracy on comprehension questions, etc), and in the technical parameters (presentation time and mode, order of trials, breaks, etc).
 
 Currently, students in the lab build their own experiments based on previous scripts they have, with the required modifications. This may take several hours per experiment.
 
-**<u>Objectives and Goals:</u>**
+**Objectives and Goals:**
 
 We would like to develop a friendly package whereby the students can input the type of
 experiment (SPR - Self Paced Reading OR RSVP - Rapid Serial Visual Presentation), their language materials, and the relevant additional parameters, and the package will build the experiment and provide a relevant java script, ready to run in PCIbex.
 
 What is uniuqe about our project is that we are aiming to offer a user-friendly interface to select the wanted parmeters; we aim to create a GUI (Graphical User Interface) that allows researchers to upload their experimental stimuli and make adjustments to the code by choosing their desirable experimental paradigm and specify parameters like SOA (Stimulus onset asynchrony), presentation preferences, factors’names etc.
 
-**<u>The input of the code will be:</u>** 
+**The input of the code will be:** 
 1) Stimuli files with the experimental materials. 
 2) An existing PCIbex scripts as a template.
 
 The template scripts will be modified accoding to the output of the GUI as provided from the users (researchers) and based on thier experimental material. 
 
-**<u>The output:</u>** 
+**The output:** 
 A final PCIbex, java-based script, ready to be run and used to present the final linguistic experiment in the PCIbex platform.
 
 The code can be divided into sections corresponding to those found in the template script, so that sections will be modified accordingly step by step. 
 
-<u>Section #1: Selecting the presentation Paradigm (SPR/RSVP).</u>
+Section #1: Selecting the presentation Paradigm (SPR/RSVP).
 
 The differnce between the 2 paradigms is basicslly how  the sentence is going to be presented to the participant during the experiment. In SPR participants control the pace of reading by clicking on a previosly specified key, the main goal is to measure the reading times of each word in the sentence. While in RSVP each word is presented in a fixed rate and participants cannot control the pace. This paradigm is mainlly used to examine comprehension when reading in high speeds. 
 
@@ -35,7 +35,7 @@ If the paradigm chosen is SPR, in the GUI, users have to choose next the sentenc
 
 If the paradigm chosen is RSVP, in the GUI, the same as in SPR, users have to choose  the sentence presentation manner, but then they need to choose Presentation duration in msec (as an integer/float). Users have to choose InterWord break duration also in msec (integer/float). 
 
-<u>Section #2: Template Modification based on the GUI output.</u>
+Section #2: Template Modification based on the GUI output.
 
 In the case of SPR: 
 1) Change the template script to fit the presentation manner chosen by the user.
@@ -47,7 +47,7 @@ In the case of RSVP:
 2) Change the template script to have the Presentation duration of each word in msec (int./float). 
 3) Change the template script to have the InterWord break duration in msec (int./float).
 
-<u>Section #3: Validating the compatibility of the Stimuli experimental materials.</u>
+<u Section #3: Validating the compatibility of the Stimuli experimental materials. u>
 
 1) Extract the names of the columns in the Excel file of the stimuli. 
 2) Specify which column names are essential and which are optional. Provide 2 files, one with a list of essential names found in the template script and the other with the optional ones. 

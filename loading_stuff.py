@@ -1,11 +1,13 @@
 def load_scripts():
-    with open('RSVP_fixed_point.txt', 'r') as f:
-        rsvp_fixed_script = f.read()
-    with open('SPR_moving_window.txt', 'r') as f:
-        spr_moving_script = f.read()
+    with open('rsvp_centered.txt', 'r') as f:
+        rsvp_centered_script = f.read()
+    with open('spr_centered.txt', 'r') as f:
+        spr_centered_script = f.read()
     with open('rsvp_moving_window.txt', 'r') as f:
         rsvp_moving_window = f.read()
-    scripts = [spr_moving_script, rsvp_fixed_script, rsvp_moving_window]
+    with open('spr_moving_window.txt', 'r') as f:
+        spr_moving_script = f.read()
+    scripts = [spr_moving_script, spr_centered_script,rsvp_centered_script, rsvp_moving_window]
 
     return scripts
 

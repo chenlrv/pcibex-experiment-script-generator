@@ -1,4 +1,4 @@
-**Python Hackathon - Package for behavioral expreiments in sentences parsing: Prof. Aya Meltzer**
+# **Python Hackathon - Package for behavioral expreiments in sentences parsing: Prof. Aya Meltzer**
 
 **Project Description:**
 In the lab, behavioral experiments are run using PCIbex, an online java script based
@@ -23,9 +23,9 @@ The template scripts will be modified accoding to the output of the GUI as provi
 **The output:** 
 A final PCIbex, java-based script, ready to be run and used to present the final linguistic experiment in the PCIbex platform.
 
-The code can be divided into sections corresponding to those found in the template script, so that sections will be modified accordingly step by step. 
+--> The code can be divided into sections corresponding to those found in the template script, so that sections will be modified accordingly step by step. 
 
-Section #1: Selecting the presentation Paradigm (SPR/RSVP).
+**Section #1: Selecting the presentation Paradigm (SPR/RSVP).**
 
 The differnce between the 2 paradigms is basicslly how  the sentence is going to be presented to the participant during the experiment. In SPR participants control the pace of reading by clicking on a previosly specified key, the main goal is to measure the reading times of each word in the sentence. While in RSVP each word is presented in a fixed rate and participants cannot control the pace. This paradigm is mainlly used to examine comprehension when reading in high speeds. 
 
@@ -35,7 +35,7 @@ If the paradigm chosen is SPR, in the GUI, users have to choose next the sentenc
 
 If the paradigm chosen is RSVP, in the GUI, the same as in SPR, users have to choose  the sentence presentation manner, but then they need to choose Presentation duration in msec (as an integer/float). Users have to choose InterWord break duration also in msec (integer/float). 
 
-Section #2: Template Modification based on the GUI output.
+**Section #2: Template Modification based on the GUI output.**
 
 In the case of SPR: 
 1) Change the template script to fit the presentation manner chosen by the user.
@@ -47,7 +47,7 @@ In the case of RSVP:
 2) Change the template script to have the Presentation duration of each word in msec (int./float). 
 3) Change the template script to have the InterWord break duration in msec (int./float).
 
-<u> Section #3: Validating the compatibility of the Stimuli experimental materials. <u>
+**Section #3: Validating the compatibility of the Stimuli experimental materials.**
 
 1) Extract the names of the columns in the Excel file of the stimuli. 
 2) Specify which column names are essential and which are optional. Provide 2 files, one with a list of essential names found in the template script and the other with the optional ones. 

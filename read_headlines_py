@@ -1,0 +1,65 @@
+import pandas as pd
+import warnings
+
+class HeadlineChecker:
+    def __init__(self, demo_items, demo_practice=None, include_context=False ,gui_output="answers"):
+        self.demo_items = demo_items
+        self.demo_practice = demo_practice
+        self.essential_item_columns = ['group', 'set', 'condition', 'sentence', 'question']
+        self.essential_practice_columns = ['sentence', 'condition', 'question']
+        
+        # Include 'context' in essential columns if include_context is True
+        if include_context:
+            self.essential_item_columns.append('context')
+            self.essential_practice_columns.append('context')
+        
+        # Load the item file
+        self.df_items = pd.read_csv(demo_items)
+        
+        # Load the practice file if provided
+        self.df_practice = None
+        if demo_practice:
+            self.df_practice = pd.read_csv(demo_practice)
+
+
+        # Check if the output type is 'noun', and if so, make FIRST_answer and SECOND_answer essential
+        self.gui_output = gui_output
+        self.check_if_noun_requires_answers()
+
+    def check_if_noun_requires_answers(self):
+        # If the GUI output is 'noun', then check if FIRST_answer and SECOND_answer columns exist
+        if self.gui_output.lower() == "noun":
+            if 'FIRST_answer' not in self.df_items.columns:
+                warnings.warn(f"Warning: 'FIRST_answer' is essential but not found in the item file.", UserWarning)
+            if 'SECOND_answer' not in self.df_items.columns:
+                warnings.warn(f"Warning: 'SECOND_answer' is essential but not found in the item file.", UserWarning)
+            # Add them to the list of essential columns
+            self.essential_item_columns.append('FIRST_answer')
+            self.essential_item_columns.append('SECOND_answer')
+
+
+        
+    def check_headlines(self):
+        self._check_item_headlines()
+        if self.df_practice is not None:
+            self._check_practice_headlines()
+    
+    def _check_item_headlines(self):
+        headlines_items = self.df_items.columns.tolist()
+        absent_in_items = [item for item in self.essential_item_columns if item not in headlines_items]
+        
+        if absent_in_items:
+            warnings.warn(f"Warning: The following essential headlines are not found in the item file: {absent_in_items}", UserWarning)
+            warnings.warn(f"Warning: Please update the headlines according to the following list: {self.essential_item_columns}", UserWarning)
+    
+    def _check_practice_headlines(self):
+        if self.df_practice is not None:
+            headlines_practice = self.df_practice.columns.tolist()
+            absent_in_practice = [item for item in self.essential_practice_columns if item not in headlines_practice]
+            
+            if absent_in_practice:
+                warnings.warn(f"Warning: The following essential headlines are not found in the practice file: {absent_in_practice}", UserWarning)
+                warnings.warn(f"Warning: Please update the headlines according to the following list: {self.essential_practice_columns}", UserWarning)
+
+
+

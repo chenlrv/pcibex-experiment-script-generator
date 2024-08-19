@@ -35,6 +35,8 @@ If the paradigm chosen is SPR, in the GUI, users have to choose next the sentenc
 
 If the paradigm chosen is RSVP, in the GUI, the same as in SPR, users have to choose  the sentence presentation manner, but then they need to choose Presentation duration in msec (as an integer/float). Users have to choose InterWord break duration also in msec (integer/float). 
 
+![Flow Chart of the GUI](/Users/sinakabaha/Documents/Python/pcibex-experiment-script-generator/flow chart GUI.png)
+
 **Section #2: Template Modification based on the GUI output.**
 
 In the case of SPR: 

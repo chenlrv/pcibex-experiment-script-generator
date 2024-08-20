@@ -77,19 +77,19 @@ def custom_parameters_assigment(gui_output: dict):
     custom_parameters = {}
 
     if gui_output['paradigm'] == 'RSVP':
-        custom_parameters['word_duration'] = gui_output['word_presentation_duration']
-        custom_parameters['break_duration'] = gui_output['inter_word_break_duration']
+        custom_parameters['word_duration'] = gui_output['sections']['word_presentation_duration']
+        custom_parameters['break_duration'] = gui_output['sections']['inter_word_break_duration']
 
-    if gui_output['context_choice'] == 'Yes':
-        context_break_duration = gui_output['context_sentence_interval']
+    if gui_output['sections']['context'] == 'Yes':
+        context_break_duration = gui_output['sections']['context_sentence_interval']
         custom_parameters['context_break_duration'] = context_break_duration
 
-    if gui_output['trials_until_break'] != 0:
-        custom_parameters['trials_until_break'] = gui_output['trials_until_break']
+    if gui_output['sections']['trials_before_breaks'] != 0:
+        custom_parameters['trials_before_break'] = gui_output['sections']['trials_before_breaks']
 
-    custom_parameters = {**custom_parameters, 'completion_text': gui_output['completion_text'],
-                         'break_screen_text': gui_output['break_screen_text'],
-                         'practice_end_text': gui_output['practice_end_text']}
+    custom_parameters = {**custom_parameters, 'completion_text': gui_output['sections']['completion_screen_text'],
+                         'break_screen_text': gui_output['sections']['break_screen_text'],
+                         'practice_end_text': gui_output['sections']['practice_end_text']}
     return custom_parameters
 
 
@@ -129,7 +129,7 @@ def customize_script(gui_output: dict):
     my_script = variables_assignment_string + '\n' + my_script + '\n\n'
 
     # Remove context presentation parts if needed
-    if gui_output['context_choice'] == 'No':
+    if gui_output['sections']['context'] == 'No':
 
         # Substrings to remove:
         substring_to_remove1 = '''
@@ -167,7 +167,7 @@ def customize_script(gui_output: dict):
         my_script = my_script.replace(substring_to_remove2.strip(), '')
 
         # Modifying answers to follow-up questions
-        if gui_output['question_type'] == 'yes/no':
+        if gui_output['sections']['answers'] != 'Custom':
             substring_to_replace1 = 'row.FIRST'
             substring_to_replace2 = 'row.SECOND'
             my_script = my_script.replace(substring_to_replace1, "\"כן\"")

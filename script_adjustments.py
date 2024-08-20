@@ -49,12 +49,12 @@ def retrieve_script(gui_output: dict):
     if gui_output['paradigm'] == 'SPR':
         if gui_output['display_config'] == 'Moving Window':
             my_script = scripts[0]
-        elif gui_output['display_config'] == 'Centered':
+        elif gui_output['display_config'] == 'Center':
             my_script = scripts[1]
     elif gui_output['paradigm'] == 'RSVP':
         if gui_output['display_config'] == 'Moving Window':
             my_script = scripts[2]
-        elif gui_output['display_config'] == 'Centered':
+        elif gui_output['display_config'] == 'Center':
             my_script = scripts[3]
 
     return my_script
@@ -77,7 +77,7 @@ def custom_parameters_assigment(gui_output: dict):
     custom_parameters = {}
 
     if gui_output['paradigm'] == 'RSVP':
-        custom_parameters['word_duration'] = gui_output['duration_config']['word_presentation_duration']
+        custom_parameters['word_duration'] = gui_output['duration_config']['presentation_duration']
         custom_parameters['break_duration'] = gui_output['duration_config']['inter_word_break_duration']
 
     if gui_output['sections']['context'] == 'Yes':

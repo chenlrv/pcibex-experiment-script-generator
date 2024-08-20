@@ -57,10 +57,10 @@ def customize_script(gui_output: dict):
     for key, value in custom_parameters.items():
         if isinstance(value, str):
             # Format string values with quotes
-            line = f'{key} = "{value}"'
+            line = f'{key} = "{value}";'
         else:
             # Format non-string values directly
-            line = f'{key} = {value}'
+            line = f'{key} = {value};'
 
         # Append the formatted line to the list
         lines.append(line)
@@ -70,7 +70,27 @@ def customize_script(gui_output: dict):
 
     # Join lines to the script
     my_script = retrieve_script(gui_output)
-    my_script = variables_assignment_string + '\n' + my_script
+    my_script = variables_assignment_string + '\n' + my_script + '\n\n'
+
+    # Remove context presentaion parts if needed
+    substring_to_remove = """
+            // Show context
+            newText("context", row.context)
+                .center() // Center the context text
+                .print()
+            ,
+            newKey(" ")
+                .wait()
+            ,
+            getText("context")
+                .remove()
+            ,
+            newTimer(400).start().wait()  // 400ms break after context
+            ,
+    """
+
+    # Remove all occurrences of the substring
+    modified_text = my_script.replace(substring_to_remove, "")
 
     return my_script
 

@@ -1,15 +1,136 @@
-﻿  // DashedSentence presentation for the sentence
-        newController("DashedSentence", {s: row.sentence})
+// Remove command prefix
+PennController.ResetPrefix(null);
+
+// Turn off debugger - keep on when building exp., turn off when running exp.
+DebugOff();
+
+// Inserts breaks within items and fillers
+function InsertBreaks(items) {
+    this.args = items.args;
+    
+    this.run = function(arrays) {
+        var results = evenShuffle(arrays);
+//n is the number of items after which there is a break        
+	var n = trials_until_break; 
+        for (var i = 0; i < results.length; ++i) {
+            if (i % n == (n-1)) {
+                results[i].push(
+                    new DynamicElement(
+                        "PennController",
+                        newTrial("break",
+                            newText("break", "זה הזמן לקחת הפסקה, לחצו על מקש רווח להמשך.")
+                                .center()
+                                .print()
+                            ,
+                            newKey("keypress", " ")
+                                .wait()
+                        ),
+                        true
+                    )
+                );
+            }
+        }
+        
+        return results;
+    }
+}
+function insertBreaks(items) {
+    return new InsertBreaks(items);
+}
+
+
+// Increment the counter for list balancing;
+// Use when sending experiment link online, unnecessary otherwise
+SetCounter("counter", "inc", 1);
+
+// Sequence of the experiment
+Sequence("consent", "demographics", "instructions", "practice", "practice-end",
+         shuffle(randomize("experimental-trial")),
+         "done", "debriefing", "send", "completion_screen");
+
+// Consent form
+newTrial("consent",
+    newHtml("consent_form", "consent.html")
+        .cssContainer({"width":"1000px"})
+        .checkboxWarning("You must consent in order to participate in the experiment")
+        .center()
+        .print()
+    ,
+    newButton("continue", "Continue")
+        .center()
+        .print()
+        .wait(getHtml("consent_form").test.complete()
+                  .failure(getHtml("consent_form").warn()))
+);
+
+// Demographics
+newTrial("demographics",
+    newHtml("demographics_form", "demographics.html")
+        .cssContainer({"width":"1000px"})
+        .center()
+        .print()
+        .log()
+    ,
+    newTimer(20)
+        .start()
+        .wait()
+    ,
+    newFunction( ()=>window.scrollTo(0,0) )
+        .call()
+    ,
+    newButton("continue", "Continue")
+        .center()
+        .print()
+        .wait(getHtml("demographics_form").test.complete()
+            .failure(getHtml("demographics_form").warn()))
+);
+
+// Instructions
+newTrial("instructions",
+    newHtml("instructions", "instructions.html")
+        .cssContainer({"width":"1000px"})
+        .center()
+        .print()
+    ,
+    newTimer(20).start().wait()
+    ,
+    newFunction( ()=>window.scrollTo(0,0) ).call()
+    ,
+    newButton("continue", "Continue")
+        .center()
+        .print()
+        .wait(getHtml("instructions").test.complete())
+);
+
+// Practice
+Template("demo_practice.csv", row =>
+    newTrial("practice",
+        // Show context
+        newText("context", row.context)
+            .center() // Center the context text
+            .print()
+        ,
+        newKey(" ")
+            .wait()
+        ,
+        getText("context")
+            .remove()
+        ,
+        newTimer(context_break_duration).start().wait()  // context_break_duration break after context
+        ,
+        newController("DashedSentence", {s: row.sentence}) // "DashedSentence" is the mode of presentation; ".sentence" is the name of the relevant column in the csv file
             .center()
             .print()
             .log()
-            .wait()  // Ensure the sentence finishes before moving on
+            .wait()
+            .remove()
         ,
         // Question with two possible answers
         newText("question", row.question)
-            .center()
-
+            .center() // Center the context text
             .print()
+            .log()
+
         ,
         newCanvas("answers", 500, 100)
             .add(100, 0, newText("F", "F: " + row.SECOND))
@@ -35,11 +156,10 @@
 
 // Practice-end
 newTrial("practice-end",
-    newText("practice-end", ".הגענו לסוף האימון. הניסוי מתחיל עכשיו. אנא ודאו שהמקלדת מכוונת לאנגלית")    
+    newText("practice-end", practice_end_text)    
         .cssContainer({"font-size": "15px", "margin-top":"2em"})
         .center()
         .print()
-   
     ,
     newButton("continue", "Continue")
         .center()
@@ -62,20 +182,21 @@ Template("demo_items.csv", row =>
         getText("context")
             .remove()
         ,
-        newTimer(400).start().wait()  // 400ms break after context
+        newTimer(context_break_duration).start().wait()  // context_break_duration ms break after context
         ,
-        // DashedSentence presentation for the sentence
-        newController("DashedSentence", {s: row.sentence})
+        newController("DashedSentence", {s: row.sentence}) // "DashedSentence" is the mode of presentation; ".sentence" is the name of the relevant column in the csv file
             .center()
             .print()
             .log()
-            .wait()  // Ensure the sentence finishes before moving on
+            .wait()
+            .remove()
         ,
         // Question with two possible answers
         newText("question", row.question)
-            .center()
-
+            .center() // Center the context text
             .print()
+            .log()
+
         ,
         newCanvas("answers", 500, 100)
             .add(100, 0, newText("F", "F: " + row.SECOND))
@@ -146,5 +267,4 @@ newTrial("completion_screen",
         .print()
         .wait()
 );
-
 

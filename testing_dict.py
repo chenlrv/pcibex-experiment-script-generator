@@ -7,6 +7,5 @@ my_dict = {'paradigm': 'RSVP', 'display_config': 'Centered', 'word_presentation_
 from loading_stuff import *
 
 fff = retrieve_script(my_dict)
-b = custom_parameters_assigment(my_dict)
+b = customize_script(my_dict)
 a = 1
-

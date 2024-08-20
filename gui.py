@@ -5,7 +5,14 @@ import string
 from tkinter import StringVar, font, filedialog, messagebox
 
 class PcibexScriptGeneratorApp:
+    
     def __init__(self, root):
+        """
+        Initialize the PcibexScriptGeneratorApp with the given root window.
+
+        Args:
+            root (tk.Tk): The root window for the application.
+        """
         self.root = root
         self.root.title("PcIBEX Experiment Script Generator")
         self.root.geometry("600x480")
@@ -34,6 +41,10 @@ class PcibexScriptGeneratorApp:
         self.create_first_screen()
 
     def create_first_screen(self):
+        """
+        Create the first screen of the application, which includes a welcome message
+        and options to choose a paradigm.
+        """
         canvas = tk.Canvas(self.root, width=550, height=100)
         canvas.pack()
         canvas.create_rectangle(10, 10, 540, 90, outline="black", fill="#1E90FF", width=2)
@@ -58,6 +69,10 @@ class PcibexScriptGeneratorApp:
 
 
     def create_files_upload_screen(self):
+        """
+        Create the file upload screen of the application, which allows users to upload
+        practice and experiment files.
+        """
         for widget in self.root.winfo_children():
             widget.destroy()
 
@@ -95,6 +110,10 @@ class PcibexScriptGeneratorApp:
 
 
     def create_display_screen(self):
+        """
+        Create the display configuration screen of the application, which allows users
+        to choose a display configuration.
+        """
         for widget in self.root.winfo_children():
             widget.destroy()
 
@@ -122,6 +141,10 @@ class PcibexScriptGeneratorApp:
         self.next_button.pack(side='bottom', pady=60, anchor='center')
 
     def create_context_screen(self):
+        """
+        Create the context configuration screen of the application, which allows users
+        to choose whether to include context sentences and configure the interval between them.
+        """
         for widget in self.root.winfo_children():
             widget.destroy()
 
@@ -171,6 +194,10 @@ class PcibexScriptGeneratorApp:
 
 
     def create_duration_configuration_screen(self):
+        """
+        Create the duration configuration screen of the application, which allows users
+        to set the duration for inter-word breaks and presentation durations.
+        """
         for widget in self.root.winfo_children():
             widget.destroy()
 
@@ -194,12 +221,20 @@ class PcibexScriptGeneratorApp:
         self.next_button.pack(side='bottom', pady=60, anchor='center')
 
     def check_duration_fields(self, *args):
+        """
+        Check if the duration fields for inter-word breaks and presentation durations are valid.
+        Enables the next button if both fields are valid.
+        """
         if self.presentation_duration.get() and self.inter_word_break_duration.get():
             self.next_button.config(state=tk.NORMAL)
         else:
             self.next_button.config(state=tk.DISABLED)
 
     def check_fields(self, *args):
+        """
+        Check if all required fields are filled and valid.
+        Enables the next button if all fields are valid.
+        """
         # Check if all required fields are filled and validate
         if (self.context.get() == "yes" and not self.context_sentence_interval.get()) or \
         not self.completion_screen_text.get() or \
@@ -234,6 +269,10 @@ class PcibexScriptGeneratorApp:
 
 
     def toggle_context_interval(self):
+        """
+        Toggle the visibility of the context interval input fields based on the user's
+        selection for the context option.
+        """
         if self.context.get() == "yes":
             self.context_interval_label.grid(row=1, column=0, padx=(20, 10), pady=5, sticky='w')
             self.context_interval_entry.grid(row=1, column=1, columnspan=2, padx=10, pady=5, sticky='w')
@@ -244,6 +283,12 @@ class PcibexScriptGeneratorApp:
         
 
     def validate_and_proceed(self, screen):
+        """
+        Validate the input fields and proceed to the next screen if the validation passes.
+
+        Args:
+        screen (str): The name of the original screen
+        """
         if screen == "context":
             try:
                 trials_before_breaks = int(self.trials_before_breaks.get())
@@ -276,7 +321,9 @@ class PcibexScriptGeneratorApp:
 
 
     def generate_configuration(self):
-
+        """
+        Generate the configuration for the experiment based on the user's input.
+        """
         context_sentence_interval = {}
         duration_config = {}
         if self.context.get() == "yes":
@@ -315,40 +362,53 @@ class PcibexScriptGeneratorApp:
                 config_file.write(config_json)
 
         self.root.quit()
-                
+
 
     def enable_next_button(self):
+        """
+        Enable the 'Next' button if the required fields are filled.
+        """
         if self.paradigm.get() or self.display_config.get():
             self.next_button.config(state=tk.NORMAL)
 
-    def browse_practice_file(self):
+    def validate_file(self):
         try:
             file_path = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
-            if not self.is_english_filename(file_path):
-                raise ValueError("Practice file name must contain only English letters, digits, dots, underscores, or hyphens")
+            return file_path
+        except BaseException as e:
+            messagebox.showerror("Invalid", str(e))
 
-            if file_path:
-                self.practice_file_path.set(file_path)
-                self.check_files_selected()
+    def browse_practice_file(self):
+        """
+        Open a file dialog to browse and select a practice file.
+        Sets the selected file path to the practice_file_path variable.
+        """
+
+        try:
+            file_path = self.validate_file()
+            self.practice_file_path.set(file_path)
+            self.check_files_selected()
         except BaseException as e:
             messagebox.showerror("Invalid", str(e))
 
     def browse_experiment_file(self):
+        """
+        Open a file dialog to browse and select an experiment file.
+        Sets the selected file path to the experiment_file_path variable.
+        """
         try:
-            file_path = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
-            if not self.is_english_filename(file_path):
-                raise ValueError("Experiment file name must contain only English letters, digits, dots, underscores, or hyphens")
-
-            if file_path:
-                self.experiment_file_path.set(file_path)
-                self.check_files_selected()
+            file_path = self.validate_file()
+            self.experiment_file_path.set(file_path)
+            self.check_files_selected()
         except BaseException as e:
             messagebox.showerror("Invalid", str(e))       
 
-    def is_english_filename(self, filename):
-        return all(char in string.ascii_letters + string.digits + "._-" for char in os.path.basename(filename))
 
     def check_files_selected(self):
+        """
+        Check if both the practice and experiment files are selected.
+        Enables the 'Next' button if both files are selected.
+        """
         if self.practice_file_path.get() and self.experiment_file_path.get():
             self.next_button.config(state=tk.NORMAL)
         else:

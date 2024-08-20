@@ -1,6 +1,15 @@
 # Import packages:
 import json
+import tkinter as tk
 from pathlib import Path
+
+#Apply GUI:
+from gui import PcibexScriptGeneratorApp
+root=tk.Tk()
+app=PcibexScriptGeneratorApp(root)
+root.mainloop()
+configurations=app.configurations
+
 
 #call the GUI output
 with open("config.json", "r", encoding='utf-8') as config_file:

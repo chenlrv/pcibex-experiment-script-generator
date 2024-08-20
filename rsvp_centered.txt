@@ -19,7 +19,7 @@ function InsertBreaks(items) {
                     new DynamicElement(
                         "PennController",
                         newTrial("break",
-                            newText("break", "זה הזמן לקחת הפסקה, לחצו על מקש רווח להמשך.")
+                            newText("break", break_screen_text)
                                 .center()
                                 .print()
                             ,
@@ -261,7 +261,7 @@ newTrial("debriefing",
 
 // Completion screen
 newTrial("completion_screen",
-    newText("thanks", "תודה על השתתפותך")
+    newText("thanks", completion_text)
         .center()
         .print()
     ,

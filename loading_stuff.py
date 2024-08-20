@@ -1,7 +1,18 @@
 def load_scripts():
+    """
+    Loads and processes text scripts from specified files. Each script is read, and certain formatting
+    adjustments are applied, such as replacing non-breaking spaces with regular spaces, stripping
+    leading/trailing whitespace, and replacing tabs with four spaces.
+
+    Returns:
+        list: A list containing the processed scripts in the following order:
+              [spr_moving_script, spr_centered_script, rsvp_moving_window, rsvp_centered_script]
+    """
     with open('rsvp_centered.txt', 'r') as f:
         rsvp_centered_script = f.read()
         rsvp_centered_script = rsvp_centered_script.replace('\u00a0', ' ')  # Replaces non-breaking space with a regular space
+        rsvp_centered_script = rsvp_centered_script.strip()
+        rsvp_centered_script = rsvp_centered_script.replace('\t', '    ')  # Replace tabs with 4 spaces
     with open('spr_centered.txt', 'r') as f:
         spr_centered_script = f.read()
         spr_centered_script = spr_centered_script.replace('\u00a0', ' ')  # Replaces non-breaking space with a regular space
@@ -24,6 +35,16 @@ def load_scripts():
 
 
 def retrieve_script(gui_output: dict):
+    """
+    Retrieves the appropriate script based on the user's GUI output selection.
+
+    Parameter:
+        gui_output (dict): A dictionary containing the user's selections from the GUI.
+                            Expected keys are 'paradigm' and 'display_config'.
+
+    Returns:
+        str: The script corresponding to the selected paradigm and display configuration.
+    """
     scripts = load_scripts()
     if gui_output['paradigm'] == 'SPR':
         if gui_output['display_config'] == 'Moving window':
@@ -40,6 +61,19 @@ def retrieve_script(gui_output: dict):
 
 
 def custom_parameters_assigment(gui_output: dict):
+    """
+    Assigns custom parameters based on the user's GUI output.
+
+    Parameter:
+        gui_output (dict): A dictionary containing the user's selections from the GUI.
+                            Expected keys are 'paradigm', 'context_choice', 'trials_until_break',
+                            'word_presentation_duration', 'inter_word_break_duration',
+                            'context_sentence_interval', 'completion_text', 'break_screen_text',
+                            and 'practice_end_text'.
+
+    Returns:
+        dict: A dictionary containing the assigned custom parameters for script customization.
+    """
     custom_parameters = {}
 
     if gui_output['paradigm'] == 'RSVP':
@@ -60,6 +94,17 @@ def custom_parameters_assigment(gui_output: dict):
 
 
 def customize_script(gui_output: dict):
+    """
+    Customizes the script based on user-specified parameters and context settings.
+
+    Parameter:
+        gui_output (dict): A dictionary containing the user's selections from the GUI.
+                            It includes parameters for the script and configurations for context
+                            presentation and follow-up question handling.
+
+        Returns:
+            str: The fully customized script as a string, ready to be saved to a file.
+        """
     custom_parameters = custom_parameters_assigment(gui_output)
     # Initialize an empty list to hold each line
     lines = []
@@ -103,7 +148,7 @@ def customize_script(gui_output: dict):
         ,
 
         '''
-        substring_to_remove2= """
+        substring_to_remove2 = """
                 // Show context
         newText("context", row.context)
             .center() // Center the context text
@@ -121,9 +166,7 @@ def customize_script(gui_output: dict):
         my_script = my_script.replace(substring_to_remove1.strip(), '')
         my_script = my_script.replace(substring_to_remove2.strip(), '')
 
-        # another substring to remove
-
-        # Modifying answers to follow-up questions:
+        # Modifying answers to follow-up questions
         if gui_output['question_type'] == 'yes/no':
             substring_to_replace1 = 'row.FIRST'
             substring_to_replace2 = 'row.SECOND'
@@ -133,14 +176,18 @@ def customize_script(gui_output: dict):
     return my_script
 
 
-def load_stimuli(experimental_stimuli, practice_stimuli):
-    import pandas as pd
+def write_script(gui_output: dict):
+    """
+    Customizes and writes the final script to a text file.
 
-    with open(experimental_stimuli) as f:
-        experimental_trials = pd.read_csv(f)
-    with open(practice_stimuli) as f:
-        practice_trials = pd.read_csv(f)
-    stimuli = [experimental_trials, practice_trials]
+    Input:
+        gui_output (dict): A dictionary containing the user's selections from the GUI.
 
-    return stimuli
+    Saves:
+        A text file named "customized_script.txt" containing the fully customized script.
+    """
+    my_script = customize_script(gui_output)
+    with open("customized_script.txt", "w") as text_file:
+        text_file.write(my_script)
+
 

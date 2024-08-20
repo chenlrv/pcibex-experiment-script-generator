@@ -1,7 +1,3 @@
-word_duration = ;
-break_duration = ;
-context_break_duration = ;
-
 // Remove command prefix
 PennController.ResetPrefix(null);
 

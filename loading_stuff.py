@@ -66,7 +66,7 @@ def custom_parameters_assigment(gui_output: dict):
 
     Parameter:
         gui_output (dict): A dictionary containing the user's selections from the GUI.
-                            Expected keys are 'paradigm', 'context_choice', 'trials_until_break',
+                            Expected keys are 'paradigm', 'context_choice', 'trials_before_break',
                             'word_presentation_duration', 'inter_word_break_duration',
                             'context_sentence_interval', 'completion_text', 'break_screen_text',
                             and 'practice_end_text'.
@@ -77,8 +77,8 @@ def custom_parameters_assigment(gui_output: dict):
     custom_parameters = {}
 
     if gui_output['paradigm'] == 'RSVP':
-        custom_parameters['word_duration'] = gui_output['sections']['word_presentation_duration']
-        custom_parameters['break_duration'] = gui_output['sections']['inter_word_break_duration']
+        custom_parameters['word_duration'] = gui_output['duration_config']['word_presentation_duration']
+        custom_parameters['break_duration'] = gui_output['duration_config']['inter_word_break_duration']
 
     if gui_output['sections']['context'] == 'Yes':
         context_break_duration = gui_output['sections']['context_sentence_interval']

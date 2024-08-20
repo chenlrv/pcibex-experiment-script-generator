@@ -16,7 +16,7 @@ gui_output=configurations
 # Define the path for demo items from the GUI output:
 demo_items_path = Path(gui_output['sections'].get('item_file', ''))
 
-class ExcelInspector:
+class FileInspector:
     """
     A class to inspect and analyze a CSV file (of the items) for empty values.
 

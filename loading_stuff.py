@@ -32,7 +32,7 @@ def custom_parameters_assigment(gui_output: dict):
     custom_parameters = {}
 
     if gui_output['paradigm'] == 'RSVP':
-        custom_parameters['word_duration'] = gui_output['presentation_duration']
+        custom_parameters['word_duration'] = gui_output['word_presentation_duration']
         custom_parameters['break_duration'] = gui_output['inter_word_break_duration']
 
     if gui_output['context_choice'] == 'Yes':

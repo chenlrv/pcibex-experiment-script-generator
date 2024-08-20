@@ -217,8 +217,6 @@ Template("demo_items.csv", row =>
     .log("group", row.group)
     .log("set", row.set)
     .log("condition", row.condition)
-    .log("context-type", row["context-type"])
-    .log("context", row.context)
     .log("sentence", row.sentence)
     .log("question", row.question)
 );

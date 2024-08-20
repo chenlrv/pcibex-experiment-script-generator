@@ -130,8 +130,8 @@ Template("demo_practice.csv", row =>
                     getText("sentence").text(
                         words.map((w, j) => (i === (words.length - 1 - j) ? word : "___")).join(" ")
                     ),
-                    newTimer(300).start().wait(),
-                    newTimer(100).start().wait()
+                    newTimer(word_duration).start().wait(),
+                    newTimer(break_duration).start().wait()
                 ]).flat(),
                 getText("sentence").remove() // Remove the sentence before the question appears
             ];
@@ -208,8 +208,8 @@ Template("demo_items.csv", row =>
                     getText("sentence").text(
                         words.map((w, j) => (i === (words.length - 1 - j) ? word : "___")).join(" ")
                     ),
-                    newTimer(300).start().wait(),
-                    newTimer(100).start().wait()
+                    newTimer(word_duration).start().wait(),
+                    newTimer(break_duration).start().wait()
                 ]).flat(),
                 getText("sentence").remove() // Remove the sentence before the question appears
             ];
@@ -239,8 +239,6 @@ Template("demo_items.csv", row =>
     .log("group", row.group)
     .log("set", row.set)
     .log("condition", row.condition)
-    .log("context-type", row["context-type"])
-    .log("context", row.context)
     .log("sentence", row.sentence)
     .log("question", row.question)
 );

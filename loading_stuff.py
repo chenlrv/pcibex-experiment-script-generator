@@ -1,12 +1,23 @@
 def load_scripts():
     with open('rsvp_centered.txt', 'r') as f:
         rsvp_centered_script = f.read()
+        rsvp_centered_script = rsvp_centered_script.replace('\u00a0', ' ')  # Replaces non-breaking space with a regular space
     with open('spr_centered.txt', 'r') as f:
         spr_centered_script = f.read()
+        spr_centered_script = spr_centered_script.replace('\u00a0', ' ')  # Replaces non-breaking space with a regular space
+        spr_centered_script = spr_centered_script.strip()
+        spr_centered_script = spr_centered_script.replace('\t', '    ')  # Replace tabs with 4 spaces
     with open('rsvp_moving_window.txt', 'r') as f:
         rsvp_moving_window = f.read()
+        rsvp_moving_window = rsvp_moving_window.replace('\u00a0', ' ')  # Replaces non-breaking space with a regular space
+        rsvp_moving_window = rsvp_moving_window.strip()
+        rsvp_moving_window = rsvp_moving_window.replace('\t', '    ')  # Replace tabs with 4 spaces
     with open('spr_moving_window.txt', 'r') as f:
         spr_moving_script = f.read()
+        spr_moving_script = spr_moving_script.replace('\u00a0', ' ')  # Replaces non-breaking space with a regular space
+        spr_moving_script = spr_moving_script.strip()
+        spr_moving_script = spr_moving_script.replace('\t', '    ')  # Replace tabs with 4 spaces
+
     scripts = [spr_moving_script, spr_centered_script, rsvp_moving_window, rsvp_centered_script]
 
     return scripts
@@ -72,25 +83,52 @@ def customize_script(gui_output: dict):
     my_script = retrieve_script(gui_output)
     my_script = variables_assignment_string + '\n' + my_script + '\n\n'
 
-    # Remove context presentaion parts if needed
-    substring_to_remove = """
-            // Show context
-            newText("context", row.context)
-                .center() // Center the context text
-                .print()
-            ,
-            newKey(" ")
-                .wait()
-            ,
-            getText("context")
-                .remove()
-            ,
-            newTimer(400).start().wait()  // 400ms break after context
-            ,
-    """
+    # Remove context presentation parts if needed
+    if gui_output['context_choice'] == 'No':
 
-    # Remove all occurrences of the substring
-    modified_text = my_script.replace(substring_to_remove, "")
+        # Substrings to remove:
+        substring_to_remove1 = '''
+                // Show context
+        newText("context", row.context)
+            .center() // Center the context text
+            .print()
+        ,
+        newKey(" ")
+            .wait()
+        ,
+        getText("context")
+            .remove()
+        ,
+        newTimer(context_break_duration).start().wait()  // context_break_duration ms break after context
+        ,
+
+        '''
+        substring_to_remove2= """
+                // Show context
+        newText("context", row.context)
+            .center() // Center the context text
+            .print()
+        ,
+        newKey(" ")
+            .wait()
+        ,
+        getText("context")
+            .remove()
+        ,
+        """
+
+        # Remove the substrings. Both substrings are needed because of indentation differences in the txt files.
+        my_script = my_script.replace(substring_to_remove1.strip(), '')
+        my_script = my_script.replace(substring_to_remove2.strip(), '')
+
+        # another substring to remove
+
+        # Modifying answers to follow-up questions:
+        if gui_output['question_type'] == 'yes/no':
+            substring_to_replace1 = 'row.FIRST'
+            substring_to_replace2 = 'row.SECOND'
+            my_script = my_script.replace(substring_to_replace1, "\"כן\"")
+            my_script = my_script.replace(substring_to_replace2, "\"לא\"")
 
     return my_script
 

@@ -3,18 +3,15 @@ import pandas as pd
 import pandas
 import numpy as np
 import warnings
-import tkinter as tk
+import json
 from pathlib import Path
 
-from gui import PcibexScriptGeneratorApp #call the GUI output (which is the dictionary output of the gui.py code).
-root=tk.Tk()
-app=PcibexScriptGeneratorApp(root)
-root.mainloop()
-configurations=app.configurations
-gui_output=configurations
+#Call the GUI output (which is the dictionary output of the gui.py code). 
+with open("config.json", "r", encoding='utf-8') as config_file:
+    gui_output = json.load(config_file)
 
 # Define the path for demo items from the GUI output:
-demo_items_path = Path(gui_output['sections'].get('item_file', ''))
+demo_items_path = Path(gui_output['files']['experiment_file'])
 
 class FileInspector:
     """

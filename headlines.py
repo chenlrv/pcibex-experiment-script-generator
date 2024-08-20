@@ -1,23 +1,22 @@
 # Import packages: 
 import pandas as pd
 import warnings
-import tkinter as tk
+import json
 from pathlib import Path
 
-from gui import PcibexScriptGeneratorApp #call the GUI output (which is the dictionary output of the gui.py code). 
-root=tk.Tk()
-app=PcibexScriptGeneratorApp(root)
-root.mainloop()
-configurations=app.configurations
-gui_output=configurations
+#Call the GUI output (which is the dictionary output of the gui.py code). 
+with open("config.json", "r", encoding='utf-8') as config_file:
+    gui_output = json.load(config_file)
+   
 
 # Extract paths and settings from the GUI output
-demo_items_path = Path(gui_output['sections'].get('item_file', '')) #extract the path of the items file. 
-practice_file_path = Path(gui_output['sections'].get('practice_file', '')) #extract the path of the practice file.
-if gui_output['sections']['context'] == 'Yes': #if a cotext is included create a cotext variable. 
+items_file_path = Path(gui_output['files']['experiment_file']) #extract the path of the item file.
+practice_file_path = Path(gui_output['files']['practice_file']) #extract the path of the practice file.
+if gui_output['sections']['context'] == 'yes': #if a cotext is included create a cotext variable. 
     context_answer = gui_output['sections']['context'] 
-if gui_output['sections']['answers type']== 'custom': #if 'noun' answers provided create relevant variable. 
-    answer_options=gui_output['sections']['answers type']
+else: 
+    context_answer = 'no'
+answer_options=gui_output['sections']['answers'] # create 'answer type 'variable as provided (yes/no or custom).
 
 class HeadlineChecker:
     """
@@ -32,7 +31,7 @@ class HeadlineChecker:
         df_items (pd.DataFrame): DataFrame loaded from the demo items CSV file.
         df_practice (pd.DataFrame): DataFrame loaded from the practice CSV file.
     """
-    def __init__(self, demo_items=demo_items_path, demo_practice=practice_file_path, include_context=context_answer,answers=answer_options):
+    def __init__(self, demo_items=items_file_path, demo_practice=practice_file_path, include_context=context_answer,answers=answer_options):
         """
         Initializes the HeadlineChecker with file paths, context inclusion flag, and answer type.
 
@@ -50,7 +49,7 @@ class HeadlineChecker:
         self.essential_practice_columns = ['sentence', 'condition', 'question']
         
         # Include 'context' in essential columns if include_context is 'Yes':
-        if include_context == "Yes":
+        if include_context == "yes":
             self.essential_item_columns.append('context')
             self.essential_practice_columns.append('context')
         
@@ -112,5 +111,5 @@ class HeadlineChecker:
       
        if demo_items_name != "demo_items.csv":
             warnings.warn(f"Warning: The file '{demo_items_name}' does not match the expected name 'demo_items.csv'.", UserWarning)
-       if demo_practice_name != "demo_prictice.csv":
+       if demo_practice_name != "demo_practice.csv":
             warnings.warn(f"Warning: The file '{demo_practice_name}' does not match the expected name 'demo_practice.csv'.", UserWarning)

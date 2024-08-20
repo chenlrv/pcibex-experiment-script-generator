@@ -1,4 +1,4 @@
-# **Python Hackathon - Package for behavioral expreiments in sentences parsing: Prof. Aya Meltzer**
+# **Python Hackathon - Package for behavioral experiments in sentences parsing: Prof. Aya Meltzer**
 
 **Project Description:**
 In the lab, behavioral experiments are run using PCIbex, an online java script based

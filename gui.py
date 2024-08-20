@@ -314,6 +314,9 @@ class PcibexScriptGeneratorApp:
         with open("config.json", "w", encoding='utf-8') as config_file:
                 config_file.write(config_json)
 
+        self.root.quit()
+                
+
     def enable_next_button(self):
         if self.paradigm.get() or self.display_config.get():
             self.next_button.config(state=tk.NORMAL)

@@ -33,7 +33,7 @@ class FileInspector:
 
     def __init__(self, file_path=demo_items_path):
         """
-        Initializes the ExcelInspector with the given file path.
+        Initializes the FileInspector with the given file path.
 
         Args:
             file_path (Path): The path to the CSV file to be inspected.

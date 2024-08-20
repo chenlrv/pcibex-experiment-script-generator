@@ -51,14 +51,14 @@ In the case of RSVP:
 
 **Section #3: Validating the compatibility of the Stimuli experimental materials.**
 
-1) Extract the names of the columns in the Excel file of the stimuli. 
+1) Extract the names of the columns in the csv file of the stimuli. 
 2) Specify which column names are essential.  
 2) Check whether the names of the columns match the names found in the template script (a list with the essential column names). 
 4) Raise a warning if an essential column name is absent and provide a Warning message that explains for the user which column name is that. 
-5) Ask the user to change the column names in the excel based on the names found in the provided list.
-6) If a 'cotext' is provided, then it is crucial to refer to that in the code, even though such column is not essential in general. If the GUI output gives 'True' parameter for the existence of a context, then the'context' should be added to the essential column names, and the user should give the corresponding column the right name in the excel. 
+5) Ask the user to change the column names in the csv file based on the names found in the provided list.
+6) If a 'cotext' is provided, then it is crucial to refer to that in the code, even though such column is not essential in general. If the GUI output gives 'True' parameter for the existence of a context, then the'context' should be added to the essential column names, and the user should give the corresponding column the right name in the csv file. 
 7) The "answer" columns (for the experimental task) are not essential in general, since a Yes/No answer is considered as a defult. A modification is needed if the answers are provided words found in the columns, then these column become essential. Such information is provided in the GUI output, the code should access this type of information and change the status of the "answer" columns accordingly.
-8) Last check, to run over the data provided in the excel file and make sure no data is missing. Replace empty values with NaN and raise a warning with the relevant indices. 
+8) Last check, to run over the data provided in the csv file and make sure no data is missing. Replace empty values with NaN and raise a warning with the relevant indices. 
 
 Once it is done, Return the final java script as a txt file. 
 

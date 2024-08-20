@@ -1,0 +1,17 @@
+{
+    "paradigm": "SPR",
+    "files": {
+        "practice_file": "C:/Users/abeer/OneDrive/שולחן העבודה/AYA/Experiment_all_files/all_thing_exp2/demo_practice.csv",
+        "experiment_file": "C:/Users/abeer/OneDrive/שולחן העבודה/AYA/Experiment_all_files/all_thing_exp2/demo_items.csv"
+    },
+    "sections": {
+        "context": "yes",
+        "context_sentence_interval": 500,
+        "completion_screen_text": "hi",
+        "practice_end_text": "bye",
+        "break_screen_text": "rest",
+        "trials_before_breaks": "9",
+        "answers": "custom"
+    },
+    "display_config": "Moving Window"
+}

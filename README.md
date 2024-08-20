@@ -31,7 +31,7 @@ The differnce between the 2 paradigms is basicslly how  the sentence is going to
 
 Based on the input coming from GUI regarding the user choice of the type of the paradigm, a set of different options (requerments) in the GUI will be presented, since each of them is customized with its own set of requerments.
 
-If the paradigm chosen is SPR, in the GUI, users have to choose next the sentence presentation manner (Moving window /Fixed presentation (centered)), they need to fill the numbers of breaks between trials (as an integer), in addition to a text (optional) presented in the break screen. 
+If the paradigm chosen is SPR, in the GUI, users have to choose next the sentence presentation manner (Moving window /Fixed presentation (centered)), they need to fill the numbers of trials between breaks (as an integer), in addition to a text (optional) presented in the break screen. 
 
 If the paradigm chosen is RSVP, in the GUI, the same as in SPR, users have to choose  the sentence presentation manner, but then they need to choose Presentation duration in msec (as an integer/float). Users have to choose InterWord break duration also in msec (integer/float). 
 
@@ -41,7 +41,7 @@ If the paradigm chosen is RSVP, in the GUI, the same as in SPR, users have to ch
 
 In the case of SPR: 
 1) Change the template script to fit the presentation manner chosen by the user.
-2) Change the template script to have the numbers of breaks between trials (int.) if needed.
+2) Change the template script to have the numbers of trials between breaks (int.) if needed.
 3) In case the user wants breaks, change the template script to have the break screen text (optional). 
  
 In the case of RSVP:

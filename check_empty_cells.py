@@ -1,3 +1,4 @@
+# Import packages: 
 import pandas as pd
 import pandas
 import numpy as np
@@ -5,21 +6,51 @@ import warnings
 import tkinter as tk
 from pathlib import Path
 
-from gui import PcibexScriptGeneratorApp #call the gui output
+from gui import PcibexScriptGeneratorApp #call the GUI output (which is the dictionary output of the gui.py code).
 root=tk.Tk()
 app=PcibexScriptGeneratorApp(root)
 root.mainloop()
 configurations=app.configurations
 gui_output=configurations
-    
+
+# Define the path for demo items from the GUI output:
 demo_items_path = Path(gui_output['sections'].get('item_file', ''))
 
 class ExcelInspector:
+    """
+    A class to inspect and analyze a CSV file (of the items) for empty values.
+
+    Attributes:
+        file_path (Path): The path to the CSV file to be inspected.
+        df (pd.DataFrame): The DataFrame representation of the CSV file.
+
+    Methods:
+        find_empty_values():
+            Identifies and warns about empty values in the CSV file.
+            Returns:
+                list of tuples: A list of (row, column) tuples indicating the positions of empty values.
+    """
+
     def __init__(self, file_path=demo_items_path):
+        """
+        Initializes the ExcelInspector with the given file path.
+
+        Args:
+            file_path (Path): The path to the CSV file to be inspected.
+        """
         self.file_path = file_path
         self.df = pd.read_csv(file_path)
    
     def find_empty_values(self):
+        """
+        Finds and warns about empty values in the DataFrame.
+
+        This method checks for NaN values and empty strings in the DataFrame, issues warnings for each empty cell,
+        and prints a message if empty values are found.
+
+        Returns:
+            list of tuples: A list of (row, column) tuples indicating the positions of empty values in the DataFrame.
+        """
         # Convert DataFrame to a NumPy array
         data = self.df.to_numpy()
        
